@@ -1,0 +1,4 @@
+FROM <acr>/jmeter:latest
+MAINTAINER Devops
+		
+EXPOSE 60000 1433

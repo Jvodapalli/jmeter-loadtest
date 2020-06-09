@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jmeter-slaves
+  labels:
+    jmeter_mode: slave
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      jmeter_mode: slave
+  template:
+    metadata:
+      labels:
+        jmeter_mode: slave
+    spec:
+      containers:
+      - name: jmslave
+        image: <acr>/jmeterslave:latest
+        volumeMounts: 
+          - name: azurejmeter
+            mountPath: /azurejmeter
+        ports:
+        - containerPort: 1099
+        - containerPort: 50000
+        - containerPort: 1433
+      volumes:
+      - name: azurejmeter
+        persistentVolumeClaim:
+          claimName: jmeter-pvc
